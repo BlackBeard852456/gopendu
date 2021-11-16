@@ -4,14 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
+	"time"
 )
 
 func main() {
-	dictionnary := getDictionnaryFile("../words")
+	dictionnary := getDictionnaryFile("words")
+	numberOfLinesOfDictionnary := getNumberLinesOfDictionnary(dictionnary)
+	randomNumber := getRandomNumber(0, numberOfLinesOfDictionnary)
+	fmt.Println(randomNumber)
 	printLogo()
-	numberOfLineOfDictionnary := getNumberLinesOfDictionnary(dictionnary)
-	fmt.Println(numberOfLineOfDictionnary)
 }
 
 func printLogo() {
@@ -39,4 +42,9 @@ func getNumberLinesOfDictionnary(wordDictionnary *os.File) int {
 		log.Fatalf("Impossible de lire le dictionnaire : %s", err)
 	}
 	return numberOfLineOfDictionnary
+}
+
+func getRandomNumber(minNumber int, maxNumber int) int {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Intn(maxNumber-minNumber) + minNumber + 1
 }
