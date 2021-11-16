@@ -10,11 +10,7 @@ import (
 )
 
 func main() {
-	dictionnary := getDictionnaryFile("words")
-	numberOfLinesOfDictionnary := getNumberLinesOfDictionnary(dictionnary)
-	randomNumber := getRandomNumber(0, numberOfLinesOfDictionnary)
-	fmt.Println(randomNumber)
-	printLogo()
+	fmt.Println(getNumberLinesOfDictionnary())
 }
 
 func printLogo() {
@@ -32,16 +28,15 @@ func getDictionnaryFile(pathFile string) *os.File {
 	return file
 }
 
-func getNumberLinesOfDictionnary(wordDictionnary *os.File) int {
-	var numberOfLineOfDictionnary int = 0
-	fileScanner := bufio.NewScanner(wordDictionnary)
+func getNumberLinesOfDictionnary() int {
+	var numberOfLines int = 0
+	dictionnaryFile := getDictionnaryFile("words")
+	defer dictionnaryFile.Close()
+	fileScanner := bufio.NewScanner(dictionnaryFile)
 	for fileScanner.Scan() {
-		numberOfLineOfDictionnary++
+		numberOfLines++
 	}
-	if err := fileScanner.Err(); err != nil {
-		log.Fatalf("Impossible de lire le dictionnaire : %s", err)
-	}
-	return numberOfLineOfDictionnary
+	return numberOfLines
 }
 
 func getRandomNumber(minNumber int, maxNumber int) int {
