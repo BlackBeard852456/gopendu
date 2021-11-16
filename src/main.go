@@ -10,7 +10,9 @@ import (
 )
 
 func main() {
-	fmt.Println(getNumberLinesOfDictionnary())
+	var numberLinesOfDictionnary int = getNumberLinesOfDictionnary()
+	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
+	fmt.Println(pickAWord(numberRandom))
 }
 
 func printLogo() {
@@ -42,4 +44,17 @@ func getNumberLinesOfDictionnary() int {
 func getRandomNumber(minNumber int, maxNumber int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(maxNumber-minNumber) + minNumber + 1
+}
+
+func pickAWord(randomNumber int) string {
+	dictionnaryFile := getDictionnaryFile("words")
+	var i int = 1
+	defer dictionnaryFile.Close()
+	fileScanner := bufio.NewScanner(dictionnaryFile)
+	for fileScanner.Scan() {
+		if i++; i == randomNumber {
+			return fileScanner.Text()
+		}
+	}
+	return ""
 }
