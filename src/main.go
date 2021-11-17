@@ -12,12 +12,23 @@ import (
 
 func main() {
 	printLogo()
+	mainLoop()
+}
+
+func mainLoop() {
+	var running bool = true
+	var letterEnterByUser string = ""
 	var numberLinesOfDictionnary int = getNumberLinesOfDictionnary()
 	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
 	var randomWord string = pickAWord(numberRandom)
-	fmt.Println("Quel est le mot secret ? ", hideWord(randomWord))
-	var letterEnterByUser string = getLetterEnterOfUser()
-	fmt.Println(verifLetterIsInTheWord(randomWord, letterEnterByUser))
+	hideWord := hideWord(randomWord)
+	for running {
+		fmt.Println(randomWord)
+		fmt.Println(len(hideWord))
+		letterEnterByUser = getLetterEnterOfUser()
+		hideWord = verifLetterIsInTheWord(randomWord, letterEnterByUser, hideWord)
+		fmt.Println(hideWord)
+	}
 }
 
 func printLogo() {
@@ -81,11 +92,13 @@ func getLetterEnterOfUser() string {
 	return letterEnter
 }
 
-func verifLetterIsInTheWord(originalWord string, letterEnter string) string {
+func verifLetterIsInTheWord(originalWord string, letterEnter string, hideWord string) string {
 	newWord := make([]string, len(originalWord))
 	for positionLetter, char := range originalWord {
 		if string(char) == letterEnter {
 			newWord[positionLetter] = string(char)
+		} else if string(hideWord[positionLetter]) != "*" {
+			newWord[positionLetter] = string(hideWord[positionLetter])
 		} else {
 			newWord[positionLetter] = "*"
 		}
