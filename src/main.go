@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -22,11 +23,12 @@ func mainLoop() {
 	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
 	var randomWord string = pickAWord(numberRandom)
 	var hideWord string = hideWord(randomWord)
-	fmt.Println(hideWord)
+	fmt.Println("Mot à trouver : ", hideWord)
 	for verifWordIsFind(hideWord) == false && !isGameOver(&numberOfTry) {
 		letterEnterByUser = getLetterEnterOfUser()
 		hideWord = verifLetterIsInTheWord(randomWord, letterEnterByUser, hideWord)
-		fmt.Println(hideWord)
+		fmt.Println("Mot à trouver : ", hideWord)
+		clearConsole()
 	}
 }
 
@@ -123,4 +125,10 @@ func isGameOver(numberOfTry *int) bool {
 		return true
 	}
 	return false
+}
+
+func clearConsole() {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }
