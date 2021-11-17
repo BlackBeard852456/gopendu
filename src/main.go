@@ -17,12 +17,13 @@ func main() {
 
 func mainLoop() {
 	var letterEnterByUser string = ""
+	var numberOfTry = 11
 	var numberLinesOfDictionnary int = getNumberLinesOfDictionnary()
 	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
 	var randomWord string = pickAWord(numberRandom)
 	var hideWord string = hideWord(randomWord)
 	fmt.Println(hideWord)
-	for verifWordIsFind(hideWord) == false {
+	for verifWordIsFind(hideWord) == false && !isGameOver(&numberOfTry) {
 		letterEnterByUser = getLetterEnterOfUser()
 		hideWord = verifLetterIsInTheWord(randomWord, letterEnterByUser, hideWord)
 		fmt.Println(hideWord)
@@ -112,4 +113,14 @@ func verifWordIsFind(hideWord string) bool {
 	}
 	fmt.Println("Bravo vous avez trouvez le mot !")
 	return true
+}
+
+func isGameOver(numberOfTry *int) bool {
+	*numberOfTry--
+	fmt.Println("Il vous reste : ", *numberOfTry, "essaies")
+	if *numberOfTry <= 0 {
+		fmt.Println("Vous avez perdu !")
+		return true
+	}
+	return false
 }
