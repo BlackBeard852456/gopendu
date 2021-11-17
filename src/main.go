@@ -11,10 +11,13 @@ import (
 )
 
 func main() {
+	printLogo()
 	var numberLinesOfDictionnary int = getNumberLinesOfDictionnary()
 	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
 	var randomWord string = pickAWord(numberRandom)
-	fmt.Println(hideWord(randomWord))
+	fmt.Println("Quel est le mot secret ? ", hideWord(randomWord))
+	var letterEnterByUser string = getLetterEnterOfUser()
+	fmt.Println(verifLetterIsInTheWord(randomWord, letterEnterByUser))
 }
 
 func printLogo() {
@@ -68,4 +71,24 @@ func hideWord(word string) string {
 	}
 	newWord := strings.Join(sliceWord, "")
 	return newWord
+}
+
+func getLetterEnterOfUser() string {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Proposer une lettre : ")
+	scanner.Scan()
+	letterEnter := scanner.Text()
+	return letterEnter
+}
+
+func verifLetterIsInTheWord(originalWord string, letterEnter string) string {
+	newWord := make([]string, len(originalWord))
+	for positionLetter, char := range originalWord {
+		if string(char) == letterEnter {
+			newWord[positionLetter] = string(char)
+		} else {
+			newWord[positionLetter] = "*"
+		}
+	}
+	return strings.Join(newWord, "")
 }
