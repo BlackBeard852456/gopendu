@@ -16,15 +16,13 @@ func main() {
 }
 
 func mainLoop() {
-	var running bool = true
 	var letterEnterByUser string = ""
 	var numberLinesOfDictionnary int = getNumberLinesOfDictionnary()
 	var numberRandom int = getRandomNumber(0, numberLinesOfDictionnary)
 	var randomWord string = pickAWord(numberRandom)
-	hideWord := hideWord(randomWord)
-	for running {
-		fmt.Println(randomWord)
-		fmt.Println(len(hideWord))
+	var hideWord string = hideWord(randomWord)
+	fmt.Println(hideWord)
+	for verifWordIsFind(hideWord) == false {
 		letterEnterByUser = getLetterEnterOfUser()
 		hideWord = verifLetterIsInTheWord(randomWord, letterEnterByUser, hideWord)
 		fmt.Println(hideWord)
@@ -104,4 +102,14 @@ func verifLetterIsInTheWord(originalWord string, letterEnter string, hideWord st
 		}
 	}
 	return strings.Join(newWord, "")
+}
+
+func verifWordIsFind(hideWord string) bool {
+	for _, char := range hideWord {
+		if string(char) == "*" {
+			return false
+		}
+	}
+	fmt.Println("Bravo vous avez trouvez le mot !")
+	return true
 }
