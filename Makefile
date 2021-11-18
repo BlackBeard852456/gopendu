@@ -7,7 +7,7 @@ build:
 	go build -o $(PROG) $(MAIN_FILE)
 
 run:
-	go run $(MAIN_FILE)A
+	go run $(MAIN_FILE)
 
 compile:
 	echo "Compile pour tous les OS et Platforms"
